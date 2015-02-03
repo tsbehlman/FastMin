@@ -11,37 +11,42 @@ This library is inspired by Jonathan Walsh's [CSSFastMin](http://git.io/FX_L3w),
 The Node variant requires ES6 Harmony support, which is available by default in io.js.
 
 ~~~JavaScript
-var FastMin = require( 'FastMin' );
+const FastMin = require( 'FastMin' );
 
-var CSS = "body { font: bold 14px Helvetica }";
+const CSS = "body { font: bold 14px Helvetica; }";
 
-var minifiedCSS = FastMin.CSS( CSS );
+let minifiedCSS = FastMin.CSS( CSS );
 ~~~
 
 FastMin also provides each minifier as a transform stream in the Node variant.  Both are available via the FastMin module, as described in the following example:
 
 ~~~JavaScript
-var http = require( 'http' );
-var fs = require( 'fs' );
+const http = require( 'http' );
+const fs = require( 'fs' );
 
 http.createServer( function ( req, res ) {
   res.writeHead( 200, { 'Content-Type': 'text/html' } );
   
-  var HTMLMinifier = new FastMin.stream.HTML();            // Minifier stream
-  var HTMLStream = fs.createReadStream( 'index.html' );    // HTML file stream
+  const HTMLMinifier = new FastMin.stream.HTML();            // Minifier stream
+  const HTMLStream = fs.createReadStream( 'index.html' );    // HTML file stream
   
   // Pipe the file through the minifier and then to the client
   HTMLStream.pipe( HTMLMinifier ).pipe( res );
 } ).listen( 8888 );
 ~~~
+
 ### PHP
 
 Each of these minifiers can be used as a callback function for PHP's output buffer, like so:
 
-	<style>
-		<? ob_start( 'CSSFastMin::minify' ); ?>   /* Begin minification */
+~~~PHP
+<style>
+	<? ob_start( 'CSSFastMin::minify' ); ?>   /* Begin minification */
 
-		/* CSS */
+	body {
+	    font: bold 14px Helvetica;
+	}
 
-		<? ob_end_flush() ?>                      /*  End minification  */
-	</style>
+	<? ob_end_flush() ?>                      /*  End minification  */
+</style>
+~~~
