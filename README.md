@@ -41,12 +41,12 @@ Each of these minifiers can be used as a callback function for PHP's output buff
 
 ~~~PHP
 <style>
-	<? ob_start( 'CSSFastMin::minify' ); ?>   // Begin minification
+	<? ob_start( 'CSSFastMin::minify' ); ?>   /* Begin minification */
 
 	body {
 	    font: bold 14px Helvetica;
 	}
 
-	<? ob_end_flush() ?>                      // End minification
+	<? ob_end_flush() ?>                      /*  End minification  */
 </style>
 ~~~
