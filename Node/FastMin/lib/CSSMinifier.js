@@ -39,7 +39,7 @@ const SKIP_SPACE_AFTER_CHARS =	new Buffer( '!"\'()*+,:=>]{}~' );
 module.exports.initialize = function() {
 	this.state = SPACE_AFTER_CHAR;
 	this.outCommentState = SPACE_AFTER_CHAR;
-}
+};
 
 module.exports.processChar = function( c, output, outputIndex ) {
 	switch( this.state ) {

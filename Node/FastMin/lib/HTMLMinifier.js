@@ -9,7 +9,7 @@ const TAG_SPACE = 			5;
 
 module.exports.initialize = function() {
 	this.state = SPACE;
-}
+};
 
 module.exports.processChar = function( c, output, outputIndex ) {
 	switch( this.state ) {
@@ -66,4 +66,4 @@ module.exports.processChar = function( c, output, outputIndex ) {
 	}
 
 	return outputIndex;
-}
+};
