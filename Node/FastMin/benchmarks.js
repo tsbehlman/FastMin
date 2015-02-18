@@ -25,7 +25,7 @@ const stats = {
 		inputLength: js.length,
 		difference: js.length - FastMin.JS( js ).length
 	},
-}
+};
 
 suite
 .add( 'FastMin#HTML', function() {
@@ -41,7 +41,7 @@ suite
 .on( 'cycle', function( event ) {
 	const results = stats[ event.target.name ];
 	console.log( String( event.target ) );
-console.log( "removed " + ( results.difference / results.inputLength * 100 ).toFixed( 1 ) + "% at a rate of " + prettysize( event.target.hz * results.difference >>> 0 ) + " per second" );
+	console.log( "removed " + ( results.difference / results.inputLength * 100 ).toFixed( 1 ) + "% at a rate of " + prettysize( event.target.hz * results.difference >>> 0 ) + " per second" );
 } )
 
 .run( { 'async': true } );
