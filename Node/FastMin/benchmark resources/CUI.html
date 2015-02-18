@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<!-- UIColor = 0 -->
+<!-- runTests = false -->
+<html lang="en">
+	<head>
+		<title>CUI</title>
+		<meta charset="UTF-8"/>
+				<!--<script type="text/javascript" src="http://fast.fonts.net/jsapi/bc33dc84-d06a-4331-86a7-01c6f1a8cdc6.js"></script>-->
+	</head>
+	<body>
+		<div id="homescreen">
+			<div class="C9Carousel">
+				<div class="C9CarouselPage">
+					<div class="C9List">
+						<span class="homescreenLabel">Home</span>
+						<a class="C9ListSeparator">DATE &amp; TIME</a>
+						<div id="homescreenDateAndTime">
+							<div id="homescreenClock"></div>
+							<div id="homescreenDateContainer">
+								<p id="homescreenTime"></p>
+								<p id="homescreenWeekday"></p>
+								<p id="homescreenDate"></p>
+							</div>
+						</div>
+						<a class="C9ListSeparator">FEED</a>
+						<div></div>
+					</div>
+					<div id="homescreenFeed" class="C9TileView">
+
+					</div>
+				</div>
+				<div class="C9CarouselPage C9List">
+					<span class="homescreenLabel">Apps</span>
+					<div id="homescreenAppsContainer">
+						<a class="C9AppIcon" data-appname="Mail"><img alt="Icon for Mail app" src="app/Mail/icon.png">Mail</a><a class="C9AppIcon" data-appname="Reader"><img alt="Icon for Reader app" src="app/Reader/icon.png">Reader</a><a class="C9AppIcon" data-appname="Videos"><img alt="Icon for Videos app" src="app/Videos/icon.png">Videos</a><a class="C9AppIcon" data-appname="Music"><img alt="Icon for Music app" src="app/Music/icon.png">Music</a><a class="C9AppIcon" data-appname="Photos"><img alt="Icon for Photos app" src="app/Photos/icon.png">Photos</a>					</div>
+				</div>
+				<div class="C9CarouselPage C9List">
+					<span class="homescreenLabel">Settings</span>
+					<!--<a class="C9ListSeparator">ACCOUNT</a>
+					<a class="C9ListItem login">
+						<strong>
+							Login Information
+						</strong>
+					</a>-->
+					<a class="C9ListSeparator">INTERFACE</a>
+					<a class="C9ListItem UIColor">
+						<strong>
+							Color Theme
+						</strong>
+					</a>
+					<a class="C9ListSeparator">DEVELOPMENT</a>
+					<!--<label class="C9ListItem">
+						<strong>
+							Expose Requests
+							<input class="exposeFrameRequests" type="checkbox"/>
+						</strong>
+					</label>-->
+					<label class="C9ListItem">
+						<strong>
+							Run Tests
+							<input class="runTests" type="checkbox"/>
+						</strong>
+					</label>
+					<!--<label class="C9ListItem">
+						<strong>
+							Skip Frames
+							<input class="frameSkip" type="checkbox"/>
+						</strong>
+					</label>-->
+				</div>
+			</div>
+		</div>
+		<div id="launcher">
+			<div class="scroller">
+				<a class="C9AppIcon" data-appname="Home"><img alt="Quit the current app" src="src/img/home.png">Home</a>
+			</div>
+			<div class="grip"></div>
+		</div>
+		<div id="cache">
+<div class="C9AppWindow photos">
+	<div class="C9AppView scroller">
+
+	</div>
+</div>
+<div class="C9AppWindow music">
+	<div class="C9AppView C9CarouselView scrollable">
+		<div class="C9Carousel">
+			<div class="C9CarouselPage C9List">
+
+			</div>
+			<div class="C9CarouselPage C9List">
+
+			</div>
+			<div class="C9CarouselPage C9List">
+
+			</div>
+		</div>
+		<div class="C9ControlBar top C9CarouselBar">
+			<a>SONGS</a>
+			<a>ARTISTS</a>
+			<a>ALBUMS</a>
+		</div>
+		<div class="C9ControlBar bottom transparent">
+			<img class="albumArt"/>
+			<div class="controls">
+				<button class="prev">
+					<svg viewBox="0 0 24 24">
+						<path d="m22,3v18l-14-9zm-8.5,0v3.4l-8.7,5.6l8.7,5.6v3.4l-14-9z"/>
+					</svg>
+				</button>
+				<button class="playPause">
+					<svg viewBox="0 0 24 24" class="play">
+						<path d="M2 0v24l21-12Z"/>
+					</svg>
+					<svg viewBox="0 0 24 24" class="pause">
+						<path d="M4 1v22h6v-22zm10 0v22h6v-22z"/>
+					</svg>
+				</button>
+				<button class="next">
+					<svg viewBox="0 0 24 24">
+						<path d="m2,3v18l14-9zm8.5,0v3.4l8.7,5.6l-8.7,5.6v3.4l14-9z"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="C9AppWindow videos">
+	<div class="C9AppView">
+		<video></video>
+	</div>
+</div>
+<div class="C9AppWindow reader">
+	<div class="C9AppView C9CarouselView scrollable">
+		<div class="C9Carousel">
+			<div class="C9CarouselPage">
+
+			</div>
+			<div class="C9CarouselPage">
+
+			</div>
+		</div>
+		<div class="C9ControlBar top C9CarouselBar">
+			<a>Android Central</a>
+			<a>MacRumors</a>
+		</div>
+	</div>
+</div>
+<div class="C9AppWindow mail">
+	<div class="C9AppView">
+		<div class="scroller C9List">
+
+		</div>
+		<div class="C9ControlBar bottom">
+			<button class="compose">
+				<svg viewBox="0 0 32 32">
+					<path d="M9.6,16.5l5.8,5.8l-7.6,1.6zm21.6,-11l-14.4,14.4l-5.2,-5.2l14.4,-14.4l5.2,5.2zm-5.2,11v10h-22v-16h6l4,-4h-14v24h30v-18z"/>
+				</svg>
+			</button>
+			<label>Inbox</label>
+			<button class="refresh">
+				<svg viewBox="0 0 32 32">
+					<!--<path d="M15 0l8 6l-8 6v-4a8 8 0 1 0 8 8h4a12 12 0 1 1 -12 -12z" fill="#000"/>-->
+					<path d="M.65 13a16 16 0 0 1 27 -8.26l3.5 -3.5v10.56h-10.56l3.5 -3.5a10.96 10.96 0 0 0 -18.4 4.7z"/>
+					<path d="M-31.65 -19a16 16 0 0 1 27 -8.26l3.5 -3.5v10.56h-10.56l3.5 -3.5a10.96 10.96 0 0 0 -18.4 4.7z" transform="rotate(180)"/>
+				</svg>
+			</button>
+		</div>
+	</div>
+</div>		</div>
+	</body>
+</html>
+
+<!-- 5 0 4 130 181 181 -->

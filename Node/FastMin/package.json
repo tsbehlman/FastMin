@@ -1,0 +1,10 @@
+{
+	"name": "FastMin",
+	"verson": "0.1.0",
+	"description": "A collection of speedy minifiers with linear space and time complexity for HTML, JavaScript, and CSS",
+	"author": "Trevor Behlman <me@tbehlman.com>",
+	"devDependencies": {
+		"benchmark": ">=1.0.0",
+		"prettysize": ">=0.0.3"
+	}
+}
