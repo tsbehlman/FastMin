@@ -10,8 +10,6 @@ function minify( input ) {
 	let inputIndex = 0;
 	let outputIndex = 0;
 	
-	this.initialize();
-	
 	while( inputIndex < length ) {
 		outputIndex = this.processChar( input.charCodeAt( inputIndex++ ), output, outputIndex );
 	}
@@ -20,11 +18,15 @@ function minify( input ) {
 }
 
 module.exports.HTML = function( input ) {
-	return minify.call( HTMLMinifier, input );
+	return minify.call( new HTMLMinifier(), input );
 };
 module.exports.CSS = function( input ) {
-	return minify.call( CSSMinifier, input );
+	return minify.call( new CSSMinifier(), input );
 };
 module.exports.JS = function( input ) {
-	return minify.call( JSMinifier, input );
+	return minify.call( new JSMinifier(), input );
 };
+
+module.exports.HTMLMinifier = HTMLMinifier;
+module.exports.CSSMinifier = CSSMinifier;
+module.exports.JSMinifier = JSMinifier;

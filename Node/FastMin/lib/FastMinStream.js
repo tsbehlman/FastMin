@@ -20,15 +20,15 @@ function _transform( chunk, encoding, done ) {
 
 function makeStream( minifier ) {
 	var stream = function() {
-		this.initialize();
+		minifier.call( this );
 	
 		Transform.call( this );
 	};
 	
 	inherits( stream, Transform );
 	
-	stream.prototype.initialize = minifier.initialize;
-	stream.prototype.processChar = minifier.processChar;
+	stream.prototype.resetState = minifier.prototype.resetState;
+	stream.prototype.processChar = minifier.prototype.processChar;
 	stream.prototype._transform = _transform;
 	
 	return stream;

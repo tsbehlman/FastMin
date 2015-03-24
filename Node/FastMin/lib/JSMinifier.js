@@ -19,12 +19,16 @@ const ESCAPE_DOUBLE_QUOTES =	11;
 // string into a buffer.  This allows for speedy lookups later on.
 const SKIP_SPACE_CHARS = new Buffer( ' !%&"\'()*+,-/:;<=>?[]^{|}~' );
 
-module.exports.initialize = function() {
+function JSMinifier() {
+	this.resetState();
+}
+
+JSMinifier.prototype.resetState = function() {
 	this.state = SPACE_AFTER_CHAR;
 	this.outCommentState = SPACE_AFTER_CHAR;
-};
+}
 
-module.exports.processChar = function( c, output, outputIndex ) {
+JSMinifier.prototype.processChar = function( c, output, outputIndex ) {
 	switch( this.state ) {
 	case SINGLE_QUOTES:
 		if( c === 39 ) {							// 39 === "'"
@@ -56,7 +60,7 @@ module.exports.processChar = function( c, output, outputIndex ) {
 		if( c === 59 ) {							// 59 === ';'
 			break;
 		}
-		else if( c !== 125 && c !== 32 ) {		// 125 === '}' && 32 === ' '
+		else if( c !== 125 && c > 32 ) {			// 125 === '}' && 32 === ' '
 			output[ outputIndex++ ] = 59;		// 59 === ';'
 		}
 	case SPACE_BEFORE_CHAR:
@@ -131,3 +135,5 @@ module.exports.processChar = function( c, output, outputIndex ) {
 	}
 	return outputIndex;
 };
+
+module.exports = JSMinifier;

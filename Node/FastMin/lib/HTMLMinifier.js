@@ -1,17 +1,49 @@
 "use strict";
 
+const Matcher = require( 'Matcher' );
+
+const JSFastMin = require( './JSMinifier' );
+const CSSFastMin = require( './CSSMinifier' );
+const Noop = require( './NoopMinifier' );
+
 const REGULAR =				0;
 const SPACE =				1;
 const DOUBLE_QUOTES =		2;
 const SINGLE_QUOTES =		3;
-const TAG = 					4;
+const TAG_NAME =				4;
 const TAG_SPACE = 			5;
+const TAG = 					6;
+const TAG_SPECIAL =			7;
+const TAG_CLOSE =			8;
 
-module.exports.initialize = function() {
+const tagNames = [
+	"pre",
+	"script",
+	"style"
+];
+
+const subMinifiers = [
+	Noop,
+	JSFastMin,
+	CSSFastMin
+];
+
+function HTMLMinifier() {
+	this.resetState();
+}
+
+HTMLMinifier.prototype.resetState = function() {
 	this.state = SPACE;
-};
+	this.matcher = new Matcher( tagNames, false );
+	this.subMinifier = null;
+}
 
-module.exports.processChar = function( c, output, outputIndex ) {
+HTMLMinifier.prototype.processChar = function( c, output, outputIndex ) {
+	
+	if( this.subMinifier === null && c < 32 ) {
+		c = 32;
+	}
+	
 	switch( this.state ) {
 	case DOUBLE_QUOTES:
 		if( c === 34 ) {						// 34 === '"'
@@ -25,6 +57,30 @@ module.exports.processChar = function( c, output, outputIndex ) {
 		}
 		output[ outputIndex++ ] = c;
 		break;
+	case TAG_NAME:
+		if( c <= 32 || c === 62 ) {			// 32 === ' ', 62 === '>'
+			let subMinifierIndex = this.matcher.getMatchIndex();
+			if( subMinifierIndex >= 0 ) {
+				this.subMinifier = new subMinifiers[ subMinifierIndex ]();
+				this.state = c <= 32 ?
+					TAG_SPACE :
+					TAG_SPECIAL;
+			}
+			else {
+				this.state = c <= 32 ?
+					TAG_SPACE :
+					REGULAR;
+			}
+			this.matcher.reset();
+		}
+		else if( c === 47 ) {				// 47 === '/'
+			this.state = REGULAR;
+		}
+		else {
+			this.matcher.matchCharCode( c );
+		}
+		output[ outputIndex++ ] = c;
+		break;
 	case TAG_SPACE:
 		if( c <= 32 ) {						// 32 === ' '
 			break;
@@ -33,7 +89,12 @@ module.exports.processChar = function( c, output, outputIndex ) {
 			this.state = TAG;
 		}
 	case TAG:
-		if( c <= 32 ) {						// 32 === ' '
+		if( c === 62 ) {						// 62 === '>'
+			this.state = this.subMinifier === null ?
+				REGULAR :
+				TAG_SPECIAL;
+		}
+		else if( c <= 32 ) {					// 32 === ' '
 			this.state = TAG_SPACE;
 		}
 		else if( c === 34 ) {				// 34 === '"'
@@ -42,10 +103,27 @@ module.exports.processChar = function( c, output, outputIndex ) {
 		else if( c === 39 ) {				// 39 === "'"
 			this.state = SINGLE_QUOTES;
 		}
-		else if( c === 62 ) {				// 62 === '>'
-			this.state = REGULAR;
-		}
 		output[ outputIndex++ ] = c;
+		break;
+	case TAG_SPECIAL:
+		if( c === 60 ) {						// 60 === '<'
+			this.state = TAG_CLOSE;
+			break;
+		}
+		outputIndex = this.subMinifier.processChar( c, output, outputIndex );
+		break;
+	case TAG_CLOSE:
+		if( c === 47 ) {						// 47 === '/'
+			this.state = REGULAR;
+			this.subMinifier = null;
+			output[ outputIndex++ ] = 60;	// 60 === '<'
+			output[ outputIndex++ ] = c;
+		}
+		else {
+			this.state = TAG_SPECIAL;
+			outputIndex = this.subMinifier.processChar( 60, output, outputIndex );	// 60 === '<'
+			outputIndex = this.subMinifier.processChar( c, output, outputIndex );
+		}
 		break;
 	case SPACE:
 		if( c <= 32 ) {						// 32 === ' '
@@ -59,7 +137,7 @@ module.exports.processChar = function( c, output, outputIndex ) {
 			this.state = SPACE;
 		}
 		else if( c === 60 ) {				// 60 === '<'
-			this.state = TAG;
+			this.state = TAG_NAME;
 		}
 		output[ outputIndex++ ] = c;
 		break;
@@ -67,3 +145,5 @@ module.exports.processChar = function( c, output, outputIndex ) {
 
 	return outputIndex;
 };
+
+module.exports = HTMLMinifier;

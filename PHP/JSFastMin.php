@@ -14,7 +14,7 @@
 		const DOUBLE_QUOTES =		10;
 		const ESCAPE_DOUBLE_QUOTES =	11;
 		
-		const SKIP_SPACE_CHARS = ' {},=~-+*/%|&<>:;z?"[]()!';
+		const SKIP_SPACE_CHARS = ' !%&"\'()*+,-/:;<=>?[]^{|}~';
 		
 		public static function minify( $input ) {
 			$length = strlen( $input );
