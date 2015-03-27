@@ -30,8 +30,8 @@
 		const SINGLE_QUOTES =		7;
 		const DOUBLE_QUOTES =		8;
 		
-		const SKIP_SPACE_BEFORE_CHARS =	'\t\n\r !"\')*+,/=>]{}~';
-		const SKIP_SPACE_AFTER_CHARS =	'!"\'()*+,:=>]{}~';
+		const SKIP_SPACE_BEFORE_CHARS =	"\t\n\r !\"\')*+,/=>]{}~";
+		const SKIP_SPACE_AFTER_CHARS =	"!\"'()*+,:=>]{}~";
 		
 		public static function minify( $inputStyleSheet ) {
 			$length = strlen( $inputStyleSheet );
