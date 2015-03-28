@@ -1,8 +1,8 @@
 "use strict";
 
-const HTMLMinifier = require( './HTMLMinifier' );
-const CSSMinifier = require( './CSSMinifier' );
-const JSMinifier = require( './JSMinifier' );
+const HTMLMinifier = require( "./HTMLMinifier" );
+const CSSMinifier = require( "./CSSMinifier" );
+const JSMinifier = require( "./JSMinifier" );
 
 function minify( input ) {
 	const length = input.length;
@@ -14,7 +14,7 @@ function minify( input ) {
 		outputIndex = this.processChar( input.charCodeAt( inputIndex++ ), output, outputIndex );
 	}
 	
-	return output.toString( 'utf8', 0, outputIndex );
+	return output.toString( "utf8", 0, outputIndex );
 }
 
 module.exports.HTML = function( input ) {

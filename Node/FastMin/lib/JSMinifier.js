@@ -1,6 +1,6 @@
 "use strict";
 
-const utils = require( './utils' );
+const utils = require( "./utils" );
 
 const REGULAR =				0;
 const SLASH =				1;
@@ -17,7 +17,7 @@ const ESCAPE_DOUBLE_QUOTES =	11;
 
 // The following is a buffer of character codes created by converting a sorted
 // string into a buffer.  This allows for speedy lookups later on.
-const SKIP_SPACE_CHARS = new Buffer( ' !%&"\'()*+,-/:;<=>?[]^{|}~' );
+const SKIP_SPACE_CHARS = new Buffer( " !%&'\"()*+,-/:;<=>?[]^{|}~" );
 
 function JSMinifier() {
 	this.resetState();
@@ -26,7 +26,7 @@ function JSMinifier() {
 JSMinifier.prototype.resetState = function() {
 	this.state = SPACE_AFTER_CHAR;
 	this.outCommentState = SPACE_AFTER_CHAR;
-}
+};
 
 JSMinifier.prototype.processChar = function( c, output, outputIndex ) {
 	switch( this.state ) {
@@ -34,7 +34,7 @@ JSMinifier.prototype.processChar = function( c, output, outputIndex ) {
 		if( c === 39 ) {							// 39 === "'"
 			this.state = REGULAR;
 		}
-		else if( c === 92 ) {					// 92 === '\\'
+		else if( c === 92 ) {					// 92 === "\\"
 			this.state = ESCAPE_SINGLE_QUOTES;
 		}
 		output[ outputIndex++ ] = c;
@@ -43,7 +43,7 @@ JSMinifier.prototype.processChar = function( c, output, outputIndex ) {
 		if( c === 34 ) {							// 34 === '"'
 			this.state = REGULAR;
 		}
-		else if( c === 92 ) {					// 92 === '\\'
+		else if( c === 92 ) {					// 92 === "\\"
 			this.state = ESCAPE_DOUBLE_QUOTES;
 		}
 		output[ outputIndex++ ] = c;
@@ -57,22 +57,22 @@ JSMinifier.prototype.processChar = function( c, output, outputIndex ) {
 		this.state = DOUBLE_QUOTES;
 		break;
 	case SEMICOLON:
-		if( c === 59 ) {							// 59 === ';'
+		if( c === 59 ) {							// 59 === ";"
 			break;
 		}
-		else if( c !== 125 && c > 32 ) {			// 125 === '}' && 32 === ' '
-			output[ outputIndex++ ] = 59;		// 59 === ';'
+		else if( c !== 125 && c > 32 ) {			// 125 === "}" && 32 === " "
+			output[ outputIndex++ ] = 59;		// 59 === ";"
 		}
 	case SPACE_BEFORE_CHAR:
 		if( this.state === SPACE_BEFORE_CHAR && utils.sortedIndexOf( SKIP_SPACE_CHARS, c ) < 0 ) {
-			output[ outputIndex++ ] = 32;		// 32 === ' '
+			output[ outputIndex++ ] = 32;		// 32 === " "
 		}
 	case SPACE_AFTER_CHAR:
-		if( c <= 32 ) {							// 32 === ' '
+		if( c <= 32 ) {							// 32 === " "
 			break;
 		}
 	case REGULAR:
-		if( c === 59 ) {							// 59 === ';'
+		if( c === 59 ) {							// 59 === ";"
 			this.state = SEMICOLON;
 			break;
 		}
@@ -82,11 +82,11 @@ JSMinifier.prototype.processChar = function( c, output, outputIndex ) {
 		else if( c === 39 ) {					// 39 === "'"
 			this.state = SINGLE_QUOTES;
 		}
-		else if( c <= 32 ) {						// 32 === ' '
+		else if( c <= 32 ) {						// 32 === " "
 			this.state = SPACE_BEFORE_CHAR;
 			break;
 		}
-		else if( c === 47 ) {					// 47 === '/'
+		else if( c === 47 ) {					// 47 === "/"
 			this.outCommentState = this.state;
 			this.state = SLASH;
 			break;
@@ -100,35 +100,35 @@ JSMinifier.prototype.processChar = function( c, output, outputIndex ) {
 		output[ outputIndex++ ] = c;
 		break;
 	case SLASH:
-		if( c === 42 ) {							// 42 === '*'
+		if( c === 42 ) {							// 42 === "*"
 			this.state = BLOCK_COMMENT;
 		}
-		else if( c === 47 ) {					// 47 === '/'
+		else if( c === 47 ) {					// 47 === "/"
 			this.state = LINE_COMMENT;
 		}
 		else {
-			output[ outputIndex++ ] = 47;		// 47 === '/'
-			if( c !== 32 ) {						// 32 === ' '
+			output[ outputIndex++ ] = 47;		// 47 === "/"
+			if( c !== 32 ) {						// 32 === " "
 				output[ outputIndex++ ] = c;
 			}
 			this.state = this.outCommentState;
 		}
 		break;
 	case BLOCK_COMMENT:
-		if( c === 42 ) {							// 42 === '*'
+		if( c === 42 ) {							// 42 === "*"
 			this.state = STAR_IN_COMMENT;
 		}
 		break;
 	case STAR_IN_COMMENT:
-		if( c === 47 ) {							// 47 === '/'
+		if( c === 47 ) {							// 47 === "/"
 			this.state = this.outCommentState;
 		}
-		else if( c !== 42 ) {					// 42 === '*'
+		else if( c !== 42 ) {					// 42 === "*"
 			this.state = BLOCK_COMMENT;
 		}
 		break;
 	case LINE_COMMENT:
-		if( c === 10 || c === 13 ) {				// 10 === '\n' && 13 === '\r'
+		if( c === 10 || c === 13 ) {				// 10 === "\n" && 13 === "\r"
 			this.state = this.outCommentState;
 		}
 		break;

@@ -1,7 +1,7 @@
 "use strict";
 
-const Transform = require( 'stream' ).Transform;
-const inherits = require( 'util' ).inherits;
+const Transform = require( "stream" ).Transform;
+const inherits = require( "util" ).inherits;
 
 function _transform( chunk, encoding, done ) {
 	const length = chunk.length;
@@ -34,6 +34,6 @@ function makeStream( minifier ) {
 	return stream;
 }
 
-module.exports.HTML = makeStream( require( './HTMLMinifier' ) );
-module.exports.CSS = makeStream( require( './CSSMinifier' ) );
-module.exports.JS = makeStream( require( './JSMinifier' ) );
+module.exports.HTML = makeStream( require( "./HTMLMinifier" ) );
+module.exports.CSS = makeStream( require( "./CSSMinifier" ) );
+module.exports.JS = makeStream( require( "./JSMinifier" ) );

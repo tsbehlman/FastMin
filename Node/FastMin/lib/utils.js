@@ -39,14 +39,14 @@ module.exports = {
 		return ( max >= min && currentItem === value ) || nearest ? pivot : -1;
 	},
 	insertSorted: function( buffer, value ) {
-		let index = buffer.sortedIndexOf( number, true );
+		let index = buffer.sortedIndexOf( value, true );
 		
-		if( buffer[index] < number ) {
+		if( buffer[index] < value ) {
 			index++;
 		}
 		
 		buffer.copy( buffer, index, index + 1 );
-		buffer[index] = number;
+		buffer[index] = value;
 		
 		return index;
 	}

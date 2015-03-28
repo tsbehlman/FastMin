@@ -1,2 +1,2 @@
-module.exports = require( './lib/FastMin' );
-module.exports.stream = require( './lib/FastMinStream' );
+module.exports = require( "./lib/FastMin" );
+module.exports.stream = require( "./lib/FastMinStream" );

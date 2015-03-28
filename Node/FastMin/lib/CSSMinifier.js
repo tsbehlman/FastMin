@@ -19,7 +19,7 @@
 
 "use strict";
 
-const utils = require( './utils' );
+const utils = require( "./utils" );
 
 const REGULAR =				0;
 const SLASH =				1;
@@ -33,8 +33,8 @@ const DOUBLE_QUOTES =		8;
 
 // The following are buffers of character codes created by converting a sorted
 // string into a buffer.  This allows for speedy lookups later on.
-const SKIP_SPACE_BEFORE_CHARS =	new Buffer( '\t\n\r !"\')*+,/=>]{}~' );
-const SKIP_SPACE_AFTER_CHARS =	new Buffer( '!"\'()*+,:=>]{}~' );
+const SKIP_SPACE_BEFORE_CHARS =	new Buffer( "\t\n\r !'\")*+,/=>]{}~" );
+const SKIP_SPACE_AFTER_CHARS =	new Buffer( "!'\"()*+,:=>]{}~" );
 
 function CSSMinifier() {
 	this.resetState();
@@ -43,7 +43,7 @@ function CSSMinifier() {
 CSSMinifier.prototype.resetState = function() {
 	this.state = SPACE_AFTER_CHAR;
 	this.outCommentState = SPACE_AFTER_CHAR;
-}
+};
 
 CSSMinifier.prototype.processChar = function( c, output, outputIndex ) {
 	switch( this.state ) {
@@ -60,22 +60,22 @@ CSSMinifier.prototype.processChar = function( c, output, outputIndex ) {
 		output[ outputIndex++ ] = c;
 		break;
 	case SEMICOLON:
-		if( c === 59 ) { 					// 59 === ';'
+		if( c === 59 ) { 					// 59 === ";"
 			break;
 		}
-		else if( c !== 125 && c > 32 ) {		// 125 === '}' && 32 === ' '
-			output[ outputIndex++ ] = 59;	// 59 === ';'
+		else if( c !== 125 && c > 32 ) {		// 125 === "}" && 32 === " "
+			output[ outputIndex++ ] = 59;	// 59 === ";"
 		}
 	case SPACE_BEFORE_CHAR:
 		if( this.state === SPACE_BEFORE_CHAR && utils.sortedIndexOf( SKIP_SPACE_BEFORE_CHARS, c ) < 0 ) {
-			output[ outputIndex++ ] = 32;	// 32 === ' '
+			output[ outputIndex++ ] = 32;	// 32 === " "
 		}
 	case SPACE_AFTER_CHAR:
-		if( c <= 32 ) {						// 32 === ' '
+		if( c <= 32 ) {						// 32 === " "
 			break;
 		}
 	case REGULAR:
-		if( c === 59 ) {	 					// 59 === ';'
+		if( c === 59 ) {	 					// 59 === ";"
 			this.state = SEMICOLON;
 			break;
 		}
@@ -88,11 +88,11 @@ CSSMinifier.prototype.processChar = function( c, output, outputIndex ) {
 		else if( utils.sortedIndexOf( SKIP_SPACE_AFTER_CHARS, c ) >= 0 ) {
 			this.state = SPACE_AFTER_CHAR;
 		}
-		else if( c <= 32 ) {					// 32 === ' '
+		else if( c <= 32 ) {					// 32 === " "
 			this.state = SPACE_BEFORE_CHAR;
 			break;
 		}
-		else if( c === 47 ) {				// 47 === '/'
+		else if( c === 47 ) {				// 47 === "/"
 			this.outCommentState = this.state;
 			this.state = SLASH;
 			break;
@@ -103,25 +103,25 @@ CSSMinifier.prototype.processChar = function( c, output, outputIndex ) {
 		output[ outputIndex++ ] = c;
 		break;
 	case SLASH:
-		if( c === 42 ) {						// 42 === '*'
+		if( c === 42 ) {						// 42 === "*"
 			this.state = COMMENT;
 		}
 		else {
-			output[ outputIndex++ ] = 47;	// 47 === '/'
-			output[ outputIndex++ ] = c
+			output[ outputIndex++ ] = 47;	// 47 === "/"
+			output[ outputIndex++ ] = c;
 			this.state = this.outCommentState;
 		}
 		break;
 	case COMMENT:
-		if( c === 42 ) {						// 42 === '*'
+		if( c === 42 ) {						// 42 === "*"
 			this.state = STAR_IN_COMMENT;
 		}
 		break;
 	case STAR_IN_COMMENT:
-		if( c === 47 ) {						// 47 === '/'
+		if( c === 47 ) {						// 47 === "/"
 			this.state = this.outCommentState;
 		}
-		else if( c !== 42 ) {				// 42 === '*'
+		else if( c !== 42 ) {				// 42 === "*"
 			this.state = COMMENT;
 		}
 		break;
